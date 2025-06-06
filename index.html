@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memecoin 冲狗智商测试 - Smart.fun</title>
+    <link rel="shortcut icon" href="favicon.jpg" type="image/x-icon">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://smart.fun">
+    <meta property="twitter:title" content="Memecoin 冲狗智商测试 - Smart.fun">
+    <meta property="twitter:description" content="测测你的 Memecoin 交易智商！10个问题，看看你是真冲狗还是韭菜王。Smart.fun - 聪明的冲狗平台，发现下一个 100x 机会。">
+    <meta property="twitter:image" content="https://iq.sny.is/preview.png">
+    
+    <style>
+        :root {
+            --primary-color: #27ae60;
+            --secondary-color: #55efc4;
+            --accent-color: #00b894;
+            --background-color: #f8fff6;
+            --text-color: #222f1f;
+            --card-bg: #ffffff;
+            --success-color: #00b894;
+            --warning-color: #fdcb6e;
+            --danger-color: #d63031;
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Source Han Sans CN', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: 
+                radial-gradient(circle at 100% 0%, rgba(39, 174, 96, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(85, 239, 196, 0.1) 0%, transparent 50%);
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: var(--shadow-sm);
+        }
+        
+        .subtitle {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            border: 1px solid rgba(39, 174, 96, 0.1);
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .welcome-card {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+            backdrop-filter: blur(10px);
+        }
+        
+        .welcome-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .welcome-card p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
+        .question-card {
+            display: none;
+        }
+        
+        .question-number {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background-color: var(--background-color);
+            border: 2px solid var(--secondary-color);
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.05rem;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .option.selected {
+            background: var(--gradient-primary);
+            border-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .result-card {
+            display: none;
+            text-align: center;
+        }
+        
+        .result-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .score-container {
+            margin: 15px 0;
+        }
+        
+        .score {
+            font-size: 2.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .title-container {
+            margin: 15px 0;
+        }
+        
+        .title {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: var(--shadow-sm);
+        }
+        
+        .bell-curve-container {
+            margin: 25px 0;
+            position: relative;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+        }
+        
+        .user-position {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border: 2px solid white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.2);
+            animation: pulse 2s infinite;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        #bell-curve {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(39, 174, 96, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
+            }
+        }
+        
+        .result-text {
+            font-size: 1.1rem;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
+        .share-container {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .twitter-share-btn {
+            background: #1DA1F2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(29, 161, 242, 0.15);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .twitter-share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 161, 242, 0.2);
+        }
+        
+        .twitter-share-btn:active {
+            transform: translateY(0);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--background-color);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        button#start-btn, button#restart-btn {
+            background: var(--gradient-primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(39, 174, 96, 0.15);
+            transition: var(--transition);
+            outline: none;
+            margin: 0 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        button#start-btn:hover, button#restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.2);
+        }
+        
+        .social-links {
+            margin-top: 15px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .social-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(39, 174, 96, 0.1);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .social-links a:hover {
+            background: rgba(39, 174, 96, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .platform-links {
+            margin-top: 25px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .platform-links p {
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .cta-button, .twitter-button {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 0 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+            font-size: 1rem;
+        }
+        
+        .cta-button {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 16px rgba(39, 174, 96, 0.15);
+        }
+        
+        .twitter-button {
+            background: #1DA1F2;
+            color: white;
+            box-shadow: 0 4px 16px rgba(29, 161, 242, 0.15);
+        }
+        
+        .cta-button:hover, .twitter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.2);
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .option {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+            
+            button#start-btn, button#restart-btn {
+                width: 100%;
+                padding: 12px 0;
+                font-size: 1.1rem;
+                margin: 5px 0;
+            }
+            
+            .social-links {
+                gap: 10px;
+            }
+            
+            .social-links a {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .cta-button, .twitter-button {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+                margin: 5px;
+            }
+            
+            .bell-curve-container {
+                height: 150px;
+            }
+            
+            .platform-links {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Memecoin 智商测试</h1>
+            <div class="social-links">
+                <a href="https://smart.fun" target="_blank" class="website-link">🚀 Smart.fun - 聪明的冲狗平台</a>
+                <a href="https://x.com/smartdotfun" target="_blank" class="twitter-link">🐦 关注 @smartdotfun</a>
+            </div>
+        </header>
+        
+        <!-- 欢迎卡片 -->
+        <div class="card welcome-card" id="welcome-card">
+            <h2>测测你的 Memecoin 智商</h2>
+            <p>我知道你每天都在扫链找角度, 研究下一个 100x</p>
+            <p>10个问题, 看看你是真冲狗还是韭菜王!</p>
+            <div class="share-container">
+                <button id="start-btn">冲就完事了！</button>
+            </div>
+        </div>
+        
+        <!-- 问题卡片 -->
+        <div class="card question-card" id="question-card">
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            <div class="question-number" id="question-number">问题 1/10</div>
+            <div class="question-text" id="question-text">问题文本</div>
+            <div class="options" id="options-container">
+                <!-- 选项将通过 JavaScript 动态添加 -->
+            </div>
+        </div>
+        
+        <!-- 结果卡片 -->
+        <div class="card result-card" id="result-card">
+            <h2>你的 IQ 测试得分:</h2>
+            <div class="score-container">
+                <div class="score" id="score">0/10</div>
+            </div>
+            <div class="title-container">
+                <div class="title" id="title">称号</div>
+            </div>
+            <div class="bell-curve-container">
+                <canvas id="bell-curve" class="bell-curve"></canvas>
+                <div class="user-position" id="user-position"></div>
+            </div>
+            <div class="result-text" id="result-text">
+                <!-- 结果文本将通过 JavaScript 动态添加 -->
+            </div>
+            <div class="share-container">
+                <div class="button-group">
+                    <button id="restart-btn">重新测试</button>
+                    <button class="twitter-share-btn" id="twitter-share-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                        分享到推特
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// 问题数据
+const questions = [
+    {
+        question: "当你看到一个新币的 CA 在群里被分享, 并且有车头在买入, 你会怎么做?",
+        options: [
+            "立即全仓冲进去, 生怕错过机会",
+            "先看看合约代码和流动性情况, 再决定是否跟车",
+            "等币价跌了再买, 这样更安全",
+            "直接忽略, 因为大多数都是 PVP 陷阱"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "在战壕里, 你发现一个币的流动性很低, 但社区情绪很高, 你会：",
+        options: [
+            "直接大额买入, 反正迟早会涨",
+            "先小仓位试探, 观察盘面反应",
+            "等别人先冲, 看看会不会盖帽",
+            "直接浇给, 这种币太危险了"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "你发现一个地址在频繁扫链, 并且每次都能发现优质项目, 这个地址可能是:",
+        options: [
+            "一个普通的 P 小兵",
+            "一个正在枯坐的链上皇",
+            "一个准备 PVP 的笨蛋王",
+            "一个在找角度的 P 元帅"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "当你在群里看到有人说 '这个币包的了', 你应该: ",
+        options: [
+            "立即梭哈, 因为包的了",
+            "先看看是谁说的, 如果是车头可以考虑跟",
+            "等币价回调再买",
+            "直接忽略, 因为没人能包的了"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "你发现一个币的持有者中有一个 P 大将, 你会: ",
+        options: [
+            "立即全仓买入, 跟着大佬冲",
+            "观察大佬的买入卖出行为, 作为参考",
+            "等币价跌了再买",
+            "直接忽略, 因为大佬也会亏钱"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "在扫链时, 你发现一个新币的流动性被锁定了, 这意味着：",
+        options: [
+            "这个币包的了, 可以梭哈",
+            "需要进一步观察合约代码和团队背景",
+            "等币价跌了再买",
+            "直接忽略, 因为锁流动性也没用"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "你发现一个币的社区在疯狂喊单, 但链上数据显示大户在悄悄浇给, 你会：",
+        options: [
+            "跟着社区喊单, 继续买入",
+            "观察链上数据, 考虑是否要减仓",
+            "等币价跌了再买",
+            "直接忽略, 因为链上数据不可信"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "在战壕里, 你发现一个币的合约代码有问题, 但社区情绪很高, 你会:",
+        options: [
+            "继续买入, 因为情绪最重要",
+            "立即卖出, 安全第一",
+            "等币价跌了再买",
+            "直接忽略, 因为合约代码不重要"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "你发现一个币的持有者中有一个链上皇, 你会:",
+        options: [
+            "立即全仓买入, 跟着大佬冲",
+            "观察大佬的操作, 学习他的交易策略",
+            "等币价跌了再买",
+            "直接忽略, 因为大佬也会亏钱"
+        ],
+        correctAnswer: 1
+    },
+    {
+        question: "在扫链时, 你发现一个新币的角度很好, 但流动性很低, 你会:",
+        options: [
+            "立即全仓买入, 因为角度好",
+            "先小仓位试探, 观察市场反应",
+            "等币价跌了再买",
+            "直接忽略, 因为流动性太低"
+        ],
+        correctAnswer: 1
+    }
+];
+
+// 称号和评价数据
+const titles = [
+    {
+        range: [0, 2],
+        title: "纯韭菜",
+        description: "兄弟, 你连 P 小兵都算不上, 你是韭菜中的韭菜! 建议先别冲了, 去学习一下基础知识, 不然你的钱包会哭的!"
+    },
+    {
+        range: [3, 5],
+        title: "P小兵",
+        description: "你偶尔能吃到肉, 但大部分时候都在吃土. 你的交易策略就是: 看别人冲就冲, 看别人跑就跑. 建议多看看链上皇的操作, 少听群里的喊单."
+    },
+    {
+        range: [6, 8],
+        title: "P大将",
+        description: "不错! 你已经掌握了 Degen 的基本技能. 你知道什么时候该冲, 什么时候该跑, 什么时候该装死. 继续保持, 下一个 100x 可能就在你手里!"
+    },
+    {
+        range: [9, 10],
+        title: "链上皇",
+        description: "卧槽! 你就是传说中的链上皇! 你不仅能在战壕里活下来, 还能在牛市中赚大钱. 你的钱包已经进化成了印钞机, 建议开个群带带我们这些 P 小兵!"
+    }
+];
+
+// 全局变量
+let currentQuestion = 0;
+let userAnswers = Array(questions.length).fill(null);
+
+// 直接获取DOM元素并添加事件监听器
+document.getElementById("start-btn").onclick = startQuiz;
+document.getElementById("restart-btn").onclick = restartQuiz;
+
+// 开始测试
+function startQuiz() {
+    document.getElementById("welcome-card").style.display = "none";
+    document.getElementById("question-card").style.display = "block";
+    loadQuestion(currentQuestion);
+}
+
+// 加载问题
+function loadQuestion(index) {
+    const question = questions[index];
+    document.getElementById("question-number").textContent = "问题 " + (index + 1) + "/" + questions.length;
+    document.getElementById("question-text").textContent = question.question;
+    
+    const optionsContainer = document.getElementById("options-container");
+    optionsContainer.innerHTML = "";
+    
+    for (let i = 0; i < question.options.length; i++) {
+        const optionElement = document.createElement("div");
+        optionElement.className = "option";
+        if (userAnswers[index] === i) {
+            optionElement.classList.add("selected");
+        }
+        optionElement.textContent = question.options[i];
+        optionElement.onclick = function() {
+            selectOption(i);
+        };
+        optionsContainer.appendChild(optionElement);
+    }
+    
+    // 更新进度条
+    const progress = ((index + 1) / questions.length) * 100;
+    document.getElementById("progress-bar").style.width = progress + "%";
+}
+
+// 选择选项
+function selectOption(optionIndex) {
+    userAnswers[currentQuestion] = optionIndex;
+    
+    const options = document.querySelectorAll(".option");
+    for (let i = 0; i < options.length; i++) {
+        if (i === optionIndex) {
+            options[i].classList.add("selected");
+        } else {
+            options[i].classList.remove("selected");
+        }
+    }
+    
+    // 短暂延迟后自动进入下一题
+    setTimeout(function() {
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            loadQuestion(currentQuestion);
+        } else {
+            showResults();
+        }
+    }, 500); // 500毫秒延迟，给用户一个视觉反馈
+}
+
+// 显示结果
+function showResults() {
+    document.getElementById("question-card").style.display = "none";
+    document.getElementById("result-card").style.display = "block";
+    
+    // 计算得分
+    let score = 0;
+    for (let i = 0; i < questions.length; i++) {
+        if (userAnswers[i] === questions[i].correctAnswer) {
+            score++;
+        }
+    }
+    
+    document.getElementById("score").textContent = score + "/" + questions.length;
+    
+    // 设置称号和评价
+    const titleData = getTitleAndDescription(score);
+    document.getElementById("title").textContent = titleData.title;
+    document.getElementById("result-text").textContent = titleData.description;
+    
+    // 绘制 Bell Curve
+    drawBellCurve(score);
+}
+
+// 获取称号和评价
+function getTitleAndDescription(score) {
+    for (let i = 0; i < titles.length; i++) {
+        if (score >= titles[i].range[0] && score <= titles[i].range[1]) {
+            return {
+                title: titles[i].title,
+                description: titles[i].description
+            };
+        }
+    }
+    
+    // 默认返回
+    return {
+        title: "交易者",
+        description: "感谢参与 Memecoin Trading 智商测试！"
+    };
+}
+
+// 绘制 Bell Curve
+function drawBellCurve(score) {
+    const canvas = document.getElementById("bell-curve");
+    const ctx = canvas.getContext("2d");
+    const container = canvas.parentElement;
+    
+    // 设置 canvas 尺寸
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+    
+    // 清除 canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // 绘制 Bell Curve
+    const mean = questions.length / 2; // 平均分
+    const stdDev = questions.length / 5; // 标准差
+    
+    // 绘制曲线
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height);
+    
+    // 生成曲线点
+    const points = [];
+    for (let x = 0; x < canvas.width; x++) {
+        const scoreAtX = (x / canvas.width) * questions.length;
+        const y = normalPDF(scoreAtX, mean, stdDev);
+        const scaledY = canvas.height - (y * canvas.height * 4);
+        points.push({ x, y: scaledY });
+        ctx.lineTo(x, scaledY);
+    }
+    
+    ctx.lineTo(canvas.width, canvas.height);
+    ctx.closePath();
+    
+    // 填充曲线
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, "rgba(39, 174, 96, 0.8)");
+    gradient.addColorStop(1, "rgba(85, 239, 196, 0.1)");
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    
+    // 绘制曲线边框
+    ctx.beginPath();
+    points.forEach(point => {
+        ctx.lineTo(point.x, point.y);
+    });
+    ctx.strokeStyle = "rgba(39, 174, 96, 1)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    
+    // 设置用户位置
+    const userPosition = document.getElementById("user-position");
+    if (userPosition) {
+        // 使用百分比定位，确保在不同屏幕尺寸下位置正确
+        const percentageX = (score / questions.length) * 100;
+        const userY = normalPDF(score, mean, stdDev);
+        const scaledUserY = canvas.height - (userY * canvas.height * 4);
+        const percentageY = (scaledUserY / canvas.height) * 100;
+        
+        userPosition.style.left = `${percentageX}%`;
+        userPosition.style.top = `${percentageY}%`;
+        userPosition.style.display = "block";
+    }
+}
+
+// 正态分布概率密度函数
+function normalPDF(x, mean, stdDev) {
+    const coefficient = 1 / (stdDev * Math.sqrt(2 * Math.PI));
+    const exponent = -Math.pow(x - mean, 2) / (2 * Math.pow(stdDev, 2));
+    return coefficient * Math.exp(exponent);
+}
+
+// 重新测试
+function restartQuiz() {
+    currentQuestion = 0;
+    userAnswers = Array(questions.length).fill(null);
+    
+    document.getElementById("result-card").style.display = "none";
+    document.getElementById("welcome-card").style.display = "block";
+}
+
+// 页面加载完成后自动开始测试，但不要放在 window.onload 中
+document.addEventListener("DOMContentLoaded", function() {
+    // 直接显示欢迎页，让用户点击开始按钮
+    document.getElementById("welcome-card").style.display = "block";
+});
+
+// 分享到推特
+function shareToTwitter() {
+    const score = document.getElementById("score").textContent;
+    const title = document.getElementById("title").textContent;
+    const text = `🔥 我在 Memecoin 智商测试中获得了 ${score}, 成为了尊贵的 ${title}！\n\n💎 你也来 @SmartDotFun 测测你的 Degen 指数吧! \n\n🔗 ${window.location.href}\n\n#Memecoin #SmartFun`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+}
+
+// 添加分享按钮事件监听
+document.getElementById("twitter-share-btn").onclick = shareToTwitter;
+
+// 添加窗口大小改变时的重绘
+window.addEventListener('resize', function() {
+    const score = parseInt(document.getElementById("score").textContent);
+    if (!isNaN(score)) {
+        drawBellCurve(score);
+    }
+});
+</script>
+</body>
+</html>
